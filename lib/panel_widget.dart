@@ -11,7 +11,9 @@ class PanelWidget extends StatelessWidget {
       controller: controller,
       padding: EdgeInsets.zero,
       children: [
-        SizedBox(height: 36),
+        SizedBox(height: 12),
+        buildDragHandle(),
+        SizedBox(height: 18),
         buildText(),
         SizedBox(height: 36),
       ],
@@ -39,6 +41,17 @@ class PanelWidget extends StatelessWidget {
             Text(getRandomString(100)),
             Text(getRandomString(100)),
           ],
+        ),
+      );
+
+  Widget buildDragHandle() => Center(
+        child: Container(
+          width: 30,
+          height: 5,
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
 }
