@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_slideup_panel/string_generator.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PanelWidget extends StatelessWidget {
   final ScrollController controller;
+  final PanelController panelController;
 
-  const PanelWidget({Key? key, required this.controller}) : super(key: key);
+  const PanelWidget({
+    Key? key,
+    required this.controller,
+    required this.panelController,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -44,14 +50,21 @@ class PanelWidget extends StatelessWidget {
         ),
       );
 
-  Widget buildDragHandle() => Center(
-        child: Container(
-          width: 30,
-          height: 5,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
+  Widget buildDragHandle() => GestureDetector(
+        onTap: togglePanel,
+        child: Center(
+          child: Container(
+            width: 30,
+            height: 5,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       );
+  void togglePanel() => panelController.isPanelOpen
+      ? panelController.close()
+      : panelController.open();
+  //
 }
