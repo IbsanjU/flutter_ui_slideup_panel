@@ -31,19 +31,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final panelHeightOpen = MediaQuery.of(context).size.height * 0.7;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: SlidingUpPanel(
+        minHeight: panelHeightClosed,
+        maxHeight: panelHeightOpen,
+        parallaxEnabled: true,
+        parallaxOffset: 0.6,
         body: Container(
           color: Colors.amber[100],
           constraints: BoxConstraints.expand(),
           child: Center(
-            child: Text('This is an example for sliding up panel'),
+            child: Text('This is an example for sliding up panel...'),
           ),
         ),
         panelBuilder: (controller) => PanelWidget(controller: controller),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
       ),
     );
   }
