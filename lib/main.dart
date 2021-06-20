@@ -30,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final panelController = PanelController();
+  static const double fabHeightClosed = 116.0;
+  double fabHeight = fabHeightClosed;
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +42,49 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: SlidingUpPanel(
-        controller: panelController,
-        minHeight: panelHeightClosed,
-        maxHeight: panelHeightOpen,
-        parallaxEnabled: true,
-        parallaxOffset: 0.6,
-        body: Container(
-          color: Colors.amber[100],
-          constraints: BoxConstraints.expand(),
-          child: Center(
-            child: Text('This is an example for sliding up panel...'),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          SlidingUpPanel(
+            controller: panelController,
+            minHeight: panelHeightClosed,
+            maxHeight: panelHeightOpen,
+            parallaxEnabled: true,
+            parallaxOffset: 0.6,
+            body: Container(
+              color: Colors.amber[100],
+              constraints: BoxConstraints.expand(),
+              child: Center(
+                child: Text('This is an example for sliding up panel...'),
+              ),
+            ),
+            panelBuilder: (controller) => PanelWidget(
+              controller: controller,
+              panelController: panelController,
+            ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+            onPanelSlide: (pos) => setState(() {
+              final panelMaxScrollExtent = panelHeightOpen - panelHeightClosed;
+              fabHeight = pos * panelMaxScrollExtent + fabHeightClosed;
+            }),
           ),
-        ),
-        panelBuilder: (controller) => PanelWidget(
-          controller: controller,
-          panelController: panelController,
-        ),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+          Positioned(
+            right: 20,
+            bottom: fabHeight,
+            child: buildFAB(),
+          ),
+        ],
       ),
     );
   }
+
+  Widget buildFAB() => FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          color: Colors.amber,
+        ),
+      );
+  //
 }
